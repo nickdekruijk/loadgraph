@@ -17,7 +17,7 @@ $ranges = [
 
 // ── Load-log helpers ──────────────────────────────────────────
 
-function parseLogLine(string $line): ?array {
+function parseLogLine(string $line) {
     $p = preg_split('/\s+/', trim($line));
     if (count($p) >= 4 && is_numeric($p[0]) && strlen($p[0]) >= 9) {
         return [(int)$p[0], (float)$p[1], (float)$p[2], (float)$p[3]];
@@ -73,7 +73,7 @@ function readLog(string $file, int $cutoff): array {
 
 // ── Log-analysis helpers ──────────────────────────────────────
 
-function parseLineTimestamp(string $line): ?int {
+function parseLineTimestamp(string $line) {
     static $months = ['Jan'=>1,'Feb'=>2,'Mar'=>3,'Apr'=>4,'May'=>5,'Jun'=>6,
                       'Jul'=>7,'Aug'=>8,'Sep'=>9,'Oct'=>10,'Nov'=>11,'Dec'=>12];
     // Apache/Nginx CLF: [10/Jun/2026:14:30:00 +0200]
@@ -132,7 +132,7 @@ function discoverLogFiles(): array {
     return array_unique($files);
 }
 
-function analyzeLogFile(string $path, int $from, int $to): ?array {
+function analyzeLogFile(string $path, int $from, int $to) {
     $fh = fopen($path, 'rb');
     if (!$fh) return null;
 
@@ -186,7 +186,7 @@ if (isset($_GET['data'])) {
     }
     $rows   = readLog($logfile, $cutoff);
     $labels = $load1 = $load5 = $load15 = [];
-    foreach ($rows as [$ts, $l1, $l5, $l15]) {
+    foreach ($rows as list($ts, $l1, $l5, $l15)) {
         $labels[] = $ts * 1000;
         $load1[]  = $l1;
         $load5[]  = $l5;
