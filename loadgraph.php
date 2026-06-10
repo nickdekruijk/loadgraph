@@ -211,7 +211,7 @@ if (isset($_GET['logs'])) {
         $r = analyzeLogFile($path, $from, $to);
         if ($r !== null) $results[] = $r;
     }
-    usort($results, fn($a, $b) => $b['count'] - $a['count']);
+    usort($results, function($a, $b) { return $b['count'] - $a['count']; });
     echo json_encode(['from' => $from, 'to' => $to, 'files' => $results]);
     exit;
 }
